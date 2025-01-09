@@ -3,7 +3,7 @@
 The server-side software for Matrix.Marketplace.
 Which is a software distribution marketplace that made from developer & for developer.
 
-> ![NOTE]
+> [!NOTE]
 > Matrix is now a part of the HyperNet project. To run it yourself, you should run the service gateway Nexus and its dependencies.
 > Learn more from Nexus project here: <https://github.com/Solsynth/HyperNet.Nexus>
 
