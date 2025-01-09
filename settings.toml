@@ -1,7 +1,7 @@
 id = "matrix01"
 
-bind = "0.0.0.0:8008"
-grpc_bind = "0.0.0.0:7008"
+bind = "0.0.0.0:8010"
+grpc_bind = "0.0.0.0:7010"
 
 nexus_addr = "localhost:7001"
 
