@@ -31,9 +31,9 @@ And the value is list of the compressed assets files or links.
 
 ### Updates
 
-About the release, we got two types of the release, full release and increment one.
+About the release, we got two types of the release, full release and patch one.
 
-For new users, it will need to download the latest full release and all the increment releases after it,
+For new users, it will need to download the latest full release and all the patch releases after it,
 and our app will merge all the release into a working one.
 
 For the old users that already have the previous release, it will download the latest increment one

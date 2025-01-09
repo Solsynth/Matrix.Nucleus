@@ -8,9 +8,8 @@ import (
 type ProductReleaseType int
 
 const (
-	ReleaseTypeMinor = ProductReleaseType(iota)
-	ReleaseTypeRegular
-	ReleaseTypeMajor
+	ReleaseTypeFull = ProductReleaseType(iota)
+	ReleaseTypePatch
 )
 
 type ProductRelease struct {
