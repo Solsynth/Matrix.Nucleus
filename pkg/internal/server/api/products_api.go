@@ -83,7 +83,7 @@ func createProduct(c *fiber.Ctx) error {
 	var data struct {
 		Name         string   `json:"name" validate:"required,max=256"`
 		Description  string   `json:"description" validate:"max=4096"`
-		Introduction string   `json:"introduction"`
+		Introduction string   `json:"introduction" validate:"required"`
 		Alias        string   `json:"alias" validate:"required"`
 		Tags         []string `json:"tags"`
 		Attachments  []string `json:"attachments"`
@@ -124,7 +124,7 @@ func updateProduct(c *fiber.Ctx) error {
 		Icon         string   `json:"icon"`
 		Name         string   `json:"name" validate:"required,max=256"`
 		Description  string   `json:"description" validate:"max=4096"`
-		Introduction string   `json:"introduction"`
+		Introduction string   `json:"introduction" validate:"required"`
 		Alias        string   `json:"alias" validate:"required"`
 		Tags         []string `json:"tags"`
 		Previews     []string `json:"previews"`

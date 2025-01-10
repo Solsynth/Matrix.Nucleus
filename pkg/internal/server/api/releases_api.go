@@ -51,7 +51,7 @@ func createRelease(c *fiber.Ctx) error {
 
 	var data struct {
 		Version     string         `json:"version" validate:"required"`
-		Type        int            `json:"type" validate:"required"`
+		Type        int            `json:"type"`
 		Channel     string         `json:"channel" validate:"required"`
 		Title       string         `json:"title" validate:"required,max=1024"`
 		Description string         `json:"description" validate:"required,max=4096"`
@@ -101,7 +101,7 @@ func updateRelease(c *fiber.Ctx) error {
 
 	var data struct {
 		Version     string         `json:"version" validate:"required"`
-		Type        int            `json:"type" validate:"required"`
+		Type        int            `json:"type"`
 		Channel     string         `json:"channel" validate:"required"`
 		Title       string         `json:"title" validate:"required,max=1024"`
 		Description string         `json:"description" validate:"required,max=4096"`
