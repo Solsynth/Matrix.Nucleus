@@ -18,7 +18,8 @@ func CountRelease(product int) (int64, error) {
 func ListRelease(product int, take, offset int) ([]models.ProductRelease, error) {
 	var items []models.ProductRelease
 	if err := database.C.
-		Where("product_id = ?", product).Preload("Meta").
+		Where("product_id = ?", product).Order("created_at DESC").
+		Preload("Meta").
 		Limit(take).Offset(offset).Find(&items).Error; err != nil {
 		return items, err
 	}
@@ -27,7 +28,8 @@ func ListRelease(product int, take, offset int) ([]models.ProductRelease, error)
 
 func GetRelease(id uint) (models.ProductRelease, error) {
 	var item models.ProductRelease
-	if err := database.C.Where("id = ?", id).Preload("Meta").First(&item).Error; err != nil {
+	if err := database.C.Where("id = ?", id).
+		Preload("Meta").First(&item).Error; err != nil {
 		return item, err
 	}
 	return item, nil
