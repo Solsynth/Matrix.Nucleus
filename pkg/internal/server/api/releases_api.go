@@ -58,6 +58,7 @@ func createRelease(c *fiber.Ctx) error {
 		Content     string                             `json:"content" validate:"required"`
 		Assets      map[string]models.ReleaseAsset     `json:"assets" validate:"required"`
 		Installers  map[string]models.ReleaseInstaller `json:"installers" validate:"required"`
+		Runners     map[string]models.ReleaseRunner    `json:"runners" validate:"required"`
 		Attachments []string                           `json:"attachments"`
 	}
 
@@ -76,6 +77,7 @@ func createRelease(c *fiber.Ctx) error {
 		Channel:    data.Channel,
 		Assets:     datatypes.NewJSONType(data.Assets),
 		Installers: datatypes.NewJSONType(data.Installers),
+		Runners:    datatypes.NewJSONType(data.Runners),
 		ProductID:  product.ID,
 		Meta: models.ProductReleaseMeta{
 			Title:       data.Title,
@@ -110,6 +112,7 @@ func updateRelease(c *fiber.Ctx) error {
 		Content     string                             `json:"content" validate:"required"`
 		Assets      map[string]models.ReleaseAsset     `json:"assets" validate:"required"`
 		Installers  map[string]models.ReleaseInstaller `json:"installers" validate:"required"`
+		Runners     map[string]models.ReleaseRunner    `json:"runners" validate:"required"`
 		Attachments []string                           `json:"attachments"`
 	}
 
@@ -132,6 +135,7 @@ func updateRelease(c *fiber.Ctx) error {
 	release.Channel = data.Channel
 	release.Assets = datatypes.NewJSONType(data.Assets)
 	release.Installers = datatypes.NewJSONType(data.Installers)
+	release.Runners = datatypes.NewJSONType(data.Runners)
 	release.Meta.Title = data.Title
 	release.Meta.Description = data.Description
 	release.Meta.Content = data.Content

@@ -19,6 +19,7 @@ type ProductRelease struct {
 	Type       ProductReleaseType                              `json:"type"`
 	Channel    string                                          `json:"channel"`
 	Assets     datatypes.JSONType[map[string]ReleaseAsset]     `json:"assets"`
+	Runners    datatypes.JSONType[map[string]ReleaseRunner]    `json:"runner"`
 	Installers datatypes.JSONType[map[string]ReleaseInstaller] `json:"installers"`
 
 	ProductID uint               `json:"product_id"`
@@ -49,4 +50,10 @@ type ReleaseInstaller struct {
 type ReleaseInstallerPatch struct {
 	Action string `json:"action" validate:"required"`
 	Glob   string `json:"glob" validate:"required"`
+}
+
+type ReleaseRunner struct {
+	Workdir string `json:"workdir"`
+	Script  string `json:"script"`
+	Label   string `json:"label"`
 }
