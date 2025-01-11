@@ -19,7 +19,7 @@ type ProductRelease struct {
 	Type       ProductReleaseType                              `json:"type"`
 	Channel    string                                          `json:"channel"`
 	Assets     datatypes.JSONType[map[string]ReleaseAsset]     `json:"assets"`
-	Runners    datatypes.JSONType[map[string]ReleaseRunner]    `json:"runner"`
+	Runners    datatypes.JSONType[map[string]ReleaseRunner]    `json:"runners"`
 	Installers datatypes.JSONType[map[string]ReleaseInstaller] `json:"installers"`
 
 	ProductID uint               `json:"product_id"`
