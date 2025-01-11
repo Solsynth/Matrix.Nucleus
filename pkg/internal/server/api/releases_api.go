@@ -50,14 +50,15 @@ func createRelease(c *fiber.Ctx) error {
 	productId, _ := c.ParamsInt("productId", 0)
 
 	var data struct {
-		Version     string         `json:"version" validate:"required"`
-		Type        int            `json:"type"`
-		Channel     string         `json:"channel" validate:"required"`
-		Title       string         `json:"title" validate:"required,max=1024"`
-		Description string         `json:"description" validate:"required,max=4096"`
-		Content     string         `json:"content" validate:"required"`
-		Assets      map[string]any `json:"assets" validate:"required"`
-		Attachments []string       `json:"attachments"`
+		Version     string                             `json:"version" validate:"required"`
+		Type        int                                `json:"type"`
+		Channel     string                             `json:"channel" validate:"required"`
+		Title       string                             `json:"title" validate:"required,max=1024"`
+		Description string                             `json:"description" validate:"required,max=4096"`
+		Content     string                             `json:"content" validate:"required"`
+		Assets      map[string]models.ReleaseAsset     `json:"assets" validate:"required"`
+		Installers  map[string]models.ReleaseInstaller `json:"installers" validate:"required"`
+		Attachments []string                           `json:"attachments"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -70,11 +71,12 @@ func createRelease(c *fiber.Ctx) error {
 	}
 
 	release := models.ProductRelease{
-		Version:   data.Version,
-		Type:      models.ProductReleaseType(data.Type),
-		Channel:   data.Channel,
-		Assets:    datatypes.NewJSONType(data.Assets),
-		ProductID: product.ID,
+		Version:    data.Version,
+		Type:       models.ProductReleaseType(data.Type),
+		Channel:    data.Channel,
+		Assets:     datatypes.NewJSONType(data.Assets),
+		Installers: datatypes.NewJSONType(data.Installers),
+		ProductID:  product.ID,
 		Meta: models.ProductReleaseMeta{
 			Title:       data.Title,
 			Description: data.Description,
@@ -100,14 +102,15 @@ func updateRelease(c *fiber.Ctx) error {
 	id, _ := c.ParamsInt("releaseId", 0)
 
 	var data struct {
-		Version     string         `json:"version" validate:"required"`
-		Type        int            `json:"type"`
-		Channel     string         `json:"channel" validate:"required"`
-		Title       string         `json:"title" validate:"required,max=1024"`
-		Description string         `json:"description" validate:"required,max=4096"`
-		Content     string         `json:"content" validate:"required"`
-		Assets      map[string]any `json:"assets" validate:"required"`
-		Attachments []string       `json:"attachments"`
+		Version     string                             `json:"version" validate:"required"`
+		Type        int                                `json:"type"`
+		Channel     string                             `json:"channel" validate:"required"`
+		Title       string                             `json:"title" validate:"required,max=1024"`
+		Description string                             `json:"description" validate:"required,max=4096"`
+		Content     string                             `json:"content" validate:"required"`
+		Assets      map[string]models.ReleaseAsset     `json:"assets" validate:"required"`
+		Installers  map[string]models.ReleaseInstaller `json:"installers" validate:"required"`
+		Attachments []string                           `json:"attachments"`
 	}
 
 	if err := exts.BindAndValidate(c, &data); err != nil {
@@ -128,6 +131,7 @@ func updateRelease(c *fiber.Ctx) error {
 	release.Type = models.ProductReleaseType(data.Type)
 	release.Channel = data.Channel
 	release.Assets = datatypes.NewJSONType(data.Assets)
+	release.Installers = datatypes.NewJSONType(data.Installers)
 	release.Meta.Title = data.Title
 	release.Meta.Description = data.Description
 	release.Meta.Content = data.Content
