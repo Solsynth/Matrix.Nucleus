@@ -30,6 +30,26 @@ func listRelease(c *fiber.Ctx) error {
 	})
 }
 
+func calcReleaseToInstall(c *fiber.Ctx) error {
+	id, _ := c.ParamsInt("productId", 0)
+
+	var data struct {
+		CurrentVersion string `json:"current"`
+		TargetVersion  string `json:"target"`
+	}
+
+	if err := exts.BindAndValidate(c, &data); err != nil {
+		return err
+	}
+
+	releases, err := services.CalcReleaseToInstall(id, data.CurrentVersion, data.TargetVersion)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(releases)
+}
+
 func getRelease(c *fiber.Ctx) error {
 	productId, _ := c.ParamsInt("productId", 0)
 	id, _ := c.ParamsInt("releaseId", 0)

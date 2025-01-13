@@ -19,6 +19,7 @@ func MapAPIs(app *fiber.App, baseURL string) {
 			releases := products.Group("/:productId/releases")
 			{
 				releases.Get("/", listRelease)
+				releases.Post("/calc", calcReleaseToInstall)
 				releases.Get("/:releaseId", getRelease)
 				releases.Post("/", createRelease)
 				releases.Put("/:releaseId", updateRelease)

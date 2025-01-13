@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+
 	"git.solsynth.dev/matrix/nucleus/pkg/internal/database"
 	"git.solsynth.dev/matrix/nucleus/pkg/internal/models"
 	"gorm.io/gorm"
@@ -13,6 +15,37 @@ func CountRelease(product int) (int64, error) {
 		return count, err
 	}
 	return count, nil
+}
+
+func CalcReleaseToInstall(product int, current, target string) ([]models.ProductRelease, error) {
+	var targetRelease models.ProductRelease
+	if err := database.C.
+		Where("product_id = ? AND version = ?", product, target).
+		First(&targetRelease).Error; err != nil {
+		return nil, fmt.Errorf("target release was not found: %v", err)
+	}
+
+	if targetRelease.Type == models.ReleaseTypeFull {
+		return []models.ProductRelease{targetRelease}, nil
+	}
+
+	var lastFullRelease models.ProductRelease
+	if err := database.C.
+		Where("product_id = ? AND type = ?", product, models.ReleaseTypeFull).
+		Order("created_at DESC").
+		First(&lastFullRelease).Error; err != nil {
+		return nil, fmt.Errorf("failed to find last full release: %v", err)
+	}
+
+	var plannedRelease []models.ProductRelease
+	if err := database.C.
+		Where("product_id = ? AND version > ? AND version <= ?", product, lastFullRelease.Version, target).
+		Order("version ASC").
+		Find(&plannedRelease).Error; err != nil {
+		return nil, fmt.Errorf("failed to find planned releases: %v", err)
+	}
+
+	return plannedRelease, nil
 }
 
 func ListRelease(product int, take, offset int) ([]models.ProductRelease, error) {
