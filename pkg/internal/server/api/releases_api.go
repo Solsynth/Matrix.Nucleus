@@ -62,7 +62,7 @@ func getRelease(c *fiber.Ctx) error {
 }
 
 func createRelease(c *fiber.Ctx) error {
-	if err := sec.EnsureAuthenticated(c); err != nil {
+	if err := sec.EnsureGrantedPerm(c, "CreateMaReleases", true); err != nil {
 		return err
 	}
 	user := c.Locals("nex_user").(*sec.UserInfo)

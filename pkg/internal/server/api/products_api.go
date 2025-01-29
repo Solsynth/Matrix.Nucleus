@@ -75,7 +75,7 @@ func getProduct(c *fiber.Ctx) error {
 }
 
 func createProduct(c *fiber.Ctx) error {
-	if err := sec.EnsureAuthenticated(c); err != nil {
+	if err := sec.EnsureGrantedPerm(c, "CreateMaProducts", true); err != nil {
 		return err
 	}
 	user := c.Locals("nex_user").(*sec.UserInfo)
